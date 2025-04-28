@@ -1,0 +1,24 @@
+{% extends 'base.html' %} {% load static %} {% block head %}
+<link rel="stylesheet" href="{% static 'css/pots/pot-index.css' %}" />
+{% endblock %} {% block content %}
+
+<section class="page-header">
+  <h1>All Pots</h1>
+  <img src="{% static 'images/pot.svg' %}" alt="A flower pot" />
+</section>
+
+<section class="card-container">
+  {% for pot in pot_list %}
+  <div class="card" style="border-color: {{ pot.color }}">
+    <div class="card-bg" style="background-color: {{ pot.color }}"></div>
+    <a href="{% url 'pot-detail' pot.id %}">
+      <div class="card-content">
+        <h2>{{ pot.name }}</h2>
+        <p>A {{ pot.color }} {{ pot.name }} pot.</p>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</section>
+
+{% endblock %}
