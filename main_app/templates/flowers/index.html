@@ -13,21 +13,23 @@
 <section class="card-container">
   {% for flower in flowers %}
   <div class="card">
-    <div class="card-content">
-      <div class="card-img-container">
-        <img
-          src="{% static 'images/bouquet.svg' %}"
-          alt="A red rose"
-          style="width: 100px; height: auto"
-        />
+    <a href="{% url 'flower-detail' flower.id %}">
+      <div class="card-content">
+        <div class="card-img-container">
+          <img
+            src="{% static 'images/bouquet.svg' %}"
+            alt="A bouquet"
+            style="width: 100px; height: auto"
+          />
+        </div>
+        <h2 class="card-title">{{ flower.name }}</h2>
+        {% if flower %}
+        <p>A {{ flower.color }} {{ flower.name }}.</p>
+        {% else %}
+        <p>No flowers here.</p>
+        {% endif %}
       </div>
-      <h2 class="card-title">{{ flower.name }}</h2>
-      {% if flower %}
-      <p>A {{ flower.color }} {{ flower.name }}.</p>
-      {% else %}
-      <p>No flowers here.</p>
-      {% endif %}
-    </div>
+    </a>
   </div>
   {% endfor %}
 </section>
