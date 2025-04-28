@@ -22,33 +22,94 @@
     <a href="{% url 'flower-delete' flower.id %}" class="btn danger">Delete</a>
   </div>
 </section>
-<!-- Existing cat-container above -->
-<div class="watering-toy-container">
-  <section class="waterings">
+<div class="watering-container">
+  <h3>Water the Flower</h3>
+  <form
+    action="{% url 'add-watering' flower.id %}"
+    method="post"
+    class="subsection-content"
+    autocomplete="off"
+  >
+    {% csrf_token %} {{ watering_form.as_p }}
+    <button type="submit" class="btn submit">Water</button>
+  </form>
+
+  <div class="watering-container">
+    <section class="waterings">
+      <div class="subsection-title">
+        <h2>Past Watering</h2>
+        <img src="{% static 'images/bouquet.svg' %}" alt="A bouquet" />
+        <img
+          src="{% static 'images/watering.svg' %}"
+          alt="A green watering can"
+        />
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for watering in flower.watering_set.all %}
+          <tr>
+            <td>{{watering.date}}</td>
+            <td>{{watering.get_time_display}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <section class="pots">
     <div class="subsection-title">
-      <h2>Watering</h2>
-      <img src="{% static 'images/bouquet.svg' %}" alt="A bouquet" />
-      <img
-        src="{% static 'images/watering.svg' %}"
-        alt="A green watering can"
-      />
+      <h2>Pots</h2>
+      <img src="{% static 'images/pot.svg' %}" alt="A flower pot" />
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Time</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for watering in flower.watering_set.all %}
-        <tr>
-          <td>{{watering.date}}</td>
-          <td>{{watering.get_time_display}}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+
+    <h3>{{ flower.name }}'s Pot</h3>
+    <div class="subsection-content">
+      {% if flower.pots %} {% for pot in flower.pots.all %}
+      <div class="pot-container">
+        <div
+          class="color-block"
+          style="background-color: {{ pot.color }}"
+        ></div>
+        <a href="{% url 'pot-detail' pot.id %}">
+          <p>A {{ pot.color }} {{ pot.name }}</p>
+        </a>
+        <form action="{% url 'remove-pot' flower.id pot.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Remove Pot</button>
+        </form>
+      </div>
+      {% endfor %} {% else %}
+      <p class="no-pots">{{flower.name}} isn't in a pot!</p>
+      {% endif %}
+    </div>
+
+    <h3>Available Pots</h3>
+    <div class="subsection-content">
+      {% if pots.count %} {% for pot in pots.all %}
+      <div class="pot-container">
+        <div
+          class="color-block"
+          style="background-color: {{ pot.color }}"
+        ></div>
+        <a href="{% url 'pot-detail' pot.id %}">
+          <p>A {{ pot.color }} {{ pot.name }}</p>
+        </a>
+        <form action="{% url 'associate-pot' flower.id pot.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn submit">Put in Pot</button>
+        </form>
+      </div>
+      {% endfor %} {% else %}
+      <p class="all-pots">{{floower.name}} already has a pot!</p>
+      {% endif %}
+    </div>
   </section>
 </div>
 
