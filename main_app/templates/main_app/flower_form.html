@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% load static %} {% block head %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}" />
+{% endblock %} {% block content %}
+
+<div class="page-header">
+  <!-- Check if a flower object exists to determine if we're editing -->
+  {% if flower %}
+  <h1>Edit {{ flower.name }}</h1>
+  {% else %}
+  <h1>Add a Flower</h1>
+  {% endif %}
+  <img src="{% static 'images/poppy.svg' %}" alt="A red poppy" />
+</div>
+
+<form action="" method="post" class="form-container">
+  {% csrf_token %}
+  <table>
+    {{ form.as_table }}
+  </table>
+  <button type="submit" class="btn submit">Submit!</button>
+</form>
+
+{% endblock %}
