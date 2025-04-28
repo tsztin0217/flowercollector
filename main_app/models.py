@@ -8,16 +8,40 @@ TIMES = (
 )
 
 # Create your models here.
+class Pot(models.Model):
+    name = models.CharField(max_length=50)
+    color = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('pot-detail', kwargs={'pk': self.id})
+    
+# class Flower(models.Model):
+#     name = models.CharField(max_length=100)
+#     color = models.CharField(max_length=100)
+
+#     pots = models.OneToOneField(Pot, on_delete=models.SET_NULL, null=True, blank=True)
+
+#     def __str__(self):
+#         return self.name
+    
+#     def get_absolute_url(self):
+#         return reverse("flower_detail", kwargs={"flower_id": self.id})
+
 class Flower(models.Model):
     name = models.CharField(max_length=100)
     color = models.CharField(max_length=100)
 
+    pots = models.ManyToManyField(Pot)
+
     def __str__(self):
         return self.name
-    
+
     def get_absolute_url(self):
-        return reverse("flower_detail", kwargs={"flower_id": self.id})
-    
+        return reverse("flower-detail", kwargs={"flower_id": self.id})
+
 
 
 class Watering(models.Model):
@@ -32,3 +56,9 @@ class Watering(models.Model):
 
     def __str__(self):
         return f"{self.get_time_display()} on {self.date}"
+    
+    class Meta:
+        ordering = ['-date'] 
+
+
+
