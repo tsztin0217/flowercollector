@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 TIMES = (
     ('M', 'Morning'),
@@ -18,29 +19,21 @@ class Pot(models.Model):
     def get_absolute_url(self):
         return reverse('pot-detail', kwargs={'pk': self.id})
     
-# class Flower(models.Model):
-#     name = models.CharField(max_length=100)
-#     color = models.CharField(max_length=100)
 
-#     pots = models.OneToOneField(Pot, on_delete=models.SET_NULL, null=True, blank=True)
-
-#     def __str__(self):
-#         return self.name
-    
-#     def get_absolute_url(self):
-#         return reverse("flower_detail", kwargs={"flower_id": self.id})
 
 class Flower(models.Model):
     name = models.CharField(max_length=100)
     color = models.CharField(max_length=100)
 
     pots = models.ManyToManyField(Pot)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return reverse("flower-detail", kwargs={"flower_id": self.id})
+    
 
 
 
