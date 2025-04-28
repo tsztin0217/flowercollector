@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% load static %} {% block head %}
+<link rel="stylesheet" href="{% static 'css/flowers/flower-detail.css' %}" />
+{% endblock %} {% block content %}
+<section class="flower-container">
+  <div class="flower-img">
+    <img src="{% static 'images/orchid.svg' %}" alt="A yellow orchid" />
+  </div>
+  <div class="flower-details">
+    <h1>{{ flower.name }}</h1>
+    {% if flower %}
+    <h2>A {{ flower.color }} year old {{ flower.name }}</h2>
+    {% else %}
+    <h2>No flower here.</h2>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
