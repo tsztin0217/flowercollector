@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% load static %} {% block head %}
+<link rel="stylesheet" href="{% static 'css/flowers/flower-index.css' %}" />
+{% endblock %} {% block content %}
+
+<section class="page-header">
+  <h1>Flower List</h1>
+  <img src="{% static 'images/lily.svg' %}" alt="A lily flower" />
+  <img src="{% static 'images/rose.svg' %}" alt="A red rose" />
+  <img src="{% static 'images/poppy.svg' %}" alt="A red poppy" />
+  <img src="{% static 'images/orchid.svg' %}" alt="A purple orchid" />
+</section>
+
+<section class="card-container">
+  {% for flower in flowers %}
+  <div class="card">
+    <div class="card-content">
+      <div class="card-img-container">
+        <img
+          src="{% static 'images/bouquet.svg' %}"
+          alt="A red rose"
+          style="width: 100px; height: auto"
+        />
+      </div>
+      <h2 class="card-title">{{ flower.name }}</h2>
+      {% if flower %}
+      <p>A {{ flower.color }} {{ flower.name }}.</p>
+      {% else %}
+      <p>No flowers here.</p>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</section>
+
+{% endblock %}
